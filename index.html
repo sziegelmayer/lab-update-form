@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bi-weekly update</title>
+<style>
+  :root{
+    --bg:#fafafa; --card:#fff; --ink:#111827; --muted:#6b7280;
+    --line:#e5e7eb; --accent:#4f46e5; --accent-soft:#eef2ff;
+    --green:#16a34a; --amber:#d97706; --red:#dc2626; --radius:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font:15px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+  .topbar{position:sticky; top:0; z-index:5; background:rgba(250,250,250,.85);
+    backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line);}
+  .topbar .inner{max-width:680px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:10px}
+  .topbar h1{font-size:16px; margin:0; font-weight:600; letter-spacing:-.01em}
+  .topbar .hint{color:var(--muted); font-size:13px}
+  .spacer{flex:1}
+  .conn{font-size:12.5px; font-weight:600; padding:5px 10px; border-radius:999px; white-space:nowrap}
+  .conn.off{color:var(--muted); background:#f1f5f9}
+  .conn.on{color:var(--green); background:#f0fdf4}
+  main{max-width:680px; margin:0 auto; padding:24px 20px 130px}
+  .field{margin:0 0 22px}
+  label.lbl{display:block; font-size:13px; font-weight:600; margin:0 0 6px}
+  .help{color:var(--muted); font-size:12.5px; margin:0 0 8px; font-weight:400}
+  input[type=text], input[type=date], input[type=password], textarea{
+    width:100%; background:var(--card); border:1px solid var(--line); border-radius:10px;
+    padding:10px 12px; font:inherit; color:inherit; transition:border-color .15s, box-shadow .15s;}
+  textarea{resize:vertical; min-height:84px}
+  input:focus, textarea:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+  .row{display:flex; gap:12px; flex-wrap:wrap}
+  .row .field{flex:1; min-width:160px}
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; margin:0 0 26px}
+  .panel h2{font-size:14px; margin:0 0 4px}
+  .panel .sub2{color:var(--muted); font-size:12.5px; margin:0 0 12px}
+  .panel.ok{border-color:#bbf7d0; background:#f0fdf4}
+  .inline{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .moods{display:flex; gap:10px; flex-wrap:wrap}
+  .mood{flex:1; min-width:140px; cursor:pointer; border:1px solid var(--line); background:var(--card);
+    border-radius:10px; padding:12px 14px; display:flex; align-items:center; gap:10px; position:relative;
+    transition:border-color .15s, background .15s, transform .05s;}
+  .mood:hover{border-color:#cbd5e1}
+  .mood:active{transform:scale(.99)}
+  .mood input{position:absolute; opacity:0; pointer-events:none}
+  .mood .emoji{font-size:20px; line-height:1}
+  .mood .txt small{display:block; color:var(--muted); font-size:11.5px}
+  .mood[data-on="1"][data-k="g"]{border-color:var(--green); background:#f0fdf4}
+  .mood[data-on="1"][data-k="y"]{border-color:var(--amber); background:#fffbeb}
+  .mood[data-on="1"][data-k="r"]{border-color:var(--red); background:#fef2f2}
+  fieldset{border:none; padding:0; margin:0}
+  .sub{margin:0 0 10px}
+  .sub .lbl{font-weight:500; font-size:12.5px; color:var(--muted)}
+  .actionbar{position:fixed; left:0; right:0; bottom:0; background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px); border-top:1px solid var(--line);}
+  .actionbar .inner{max-width:680px; margin:0 auto; padding:12px 20px; display:flex; gap:10px; align-items:center}
+  .btn{border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:10px;
+    padding:10px 16px; font:inherit; font-weight:600; cursor:pointer; transition:background .15s, border-color .15s, transform .05s;}
+  .btn:hover{border-color:#cbd5e1}
+  .btn:active{transform:scale(.98)}
+  .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
+  .btn.primary:hover{background:#4338ca}
+  .btn.primary:disabled{background:#c7d2fe; border-color:#c7d2fe; cursor:not-allowed}
+  .btn.ghost{background:transparent}
+  .btn.sm{padding:8px 12px; font-size:13px}
+  .toast{font-size:13px; font-weight:600; opacity:0; transition:opacity .2s}
+  .toast.show{opacity:1}
+  .toast.ok{color:var(--green)} .toast.err{color:var(--red)}
+  details.preview{margin-top:10px; border:1px solid var(--line); border-radius:var(--radius); background:var(--card)}
+  details.preview summary{cursor:pointer; padding:12px 14px; font-weight:600; font-size:13px; list-style:none}
+  details.preview summary::-webkit-details-marker{display:none}
+  details.preview summary::after{content:"▸"; float:right; color:var(--muted)}
+  details.preview[open] summary::after{content:"▾"}
+  pre.md{margin:0; padding:14px; border-top:1px solid var(--line); white-space:pre-wrap; word-break:break-word;
+    font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:#374151; max-height:340px; overflow:auto}
+  a{color:var(--accent)}
+  .foot{color:var(--muted); font-size:12px; margin-top:28px; text-align:center}
+  .hidden{display:none !important}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="inner">
+  <h1>Bi-weekly update</h1><span class="hint">~15 min</span>
+  <span class="spacer"></span>
+  <span class="conn off" id="conn">Not connected</span>
+</div></div>
+
+<main>
+  <!-- Connection panel -->
+  <section class="panel" id="connPanel">
+    <h2>Connect once</h2>
+    <p class="sub2">Paste a GitHub token so this page can save your update to your private repo. Stored only in this browser.</p>
+    <div class="field" style="margin-bottom:12px">
+      <input type="password" id="token" placeholder="ghp_… (paste your token)" autocomplete="off">
+    </div>
+    <div class="inline">
+      <button class="btn primary sm" id="connect">Connect</button>
+      <a class="btn ghost sm" id="mktoken" href="https://github.com/settings/tokens/new?scopes=repo&description=lab-update" target="_blank" rel="noopener">Create a token →</a>
+      <span class="toast" id="connMsg"></span>
+    </div>
+    <details class="preview" style="margin-top:14px">
+      <summary>How to create the token (1 min)</summary>
+      <div style="padding:12px 14px; border-top:1px solid var(--line); font-size:13px">
+        <ol style="margin:0; padding-left:18px">
+          <li>Click <strong>Create a token →</strong> (opens GitHub, scope <code>repo</code> pre-selected).</li>
+          <li>Set <em>Expiration</em> as you like, scroll down, click <strong>Generate token</strong>.</li>
+          <li>Copy it, paste above, click <strong>Connect</strong>. You only do this once per browser.</li>
+        </ol>
+        <p style="color:var(--muted); margin:10px 0 0">You must have already accepted the invite to your <code>lab-…</code> repo.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- Form -->
+  <div class="row">
+    <div class="field">
+      <label class="lbl" for="member">Your name</label>
+      <input type="text" id="member" placeholder="e.g. Tristan Lemke">
+    </div>
+    <div class="field" style="max-width:180px">
+      <label class="lbl" for="date">Date</label>
+      <input type="date" id="date">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field"><label class="lbl" for="from">Period from</label><input type="date" id="from"></div>
+    <div class="field"><label class="lbl" for="to">to</label><input type="date" id="to"></div>
+  </div>
+
+  <div class="field">
+    <label class="lbl">Mood</label>
+    <div class="moods" id="moods">
+      <label class="mood" data-k="g"><input type="radio" name="mood" value="🟢"><span class="emoji">🟢</span><span class="txt">In flow<small>going well</small></span></label>
+      <label class="mood" data-k="y"><input type="radio" name="mood" value="🟡"><span class="emoji">🟡</span><span class="txt">OK but slow<small>slow / unclear</small></span></label>
+      <label class="mood" data-k="r"><input type="radio" name="mood" value="🔴"><span class="emoji">🔴</span><span class="txt">Stuck<small>need help</small></span></label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="done">1. Last two weeks — what got done</label>
+    <p class="help">2–4 concrete things. One per line.</p>
+    <textarea id="done" placeholder="Finished cohort query&#10;Drafted methods section"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="worked">2. What worked / didn't</label>
+    <p class="help">1–2 sentences. One learning to keep or change.</p>
+    <textarea id="worked"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="lbl">3. Where I'm stuck / what I need</label>
+    <p class="help">The most important section. Leave a line blank if not applicable.</p>
+    <fieldset>
+      <div class="sub"><label class="lbl" for="content">Content — methodological / scientific</label><input type="text" id="content"></div>
+      <div class="sub"><label class="lbl" for="resources">Resources — data, access, time, budget</label><input type="text" id="resources"></div>
+      <div class="sub"><label class="lbl" for="people">People — who needs to do what</label><input type="text" id="people" placeholder="Nothing right now."></div>
+    </fieldset>
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="plan">4. Plan next two weeks</label>
+    <p class="help">2–3 realistic items. One per line.</p>
+    <textarea id="plan"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="radar">5. Longer-term on my radar <span class="help" style="display:inline">(optional)</span></label>
+    <textarea id="radar"></textarea>
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="question">6. Question for the group <span class="help" style="display:inline">(optional)</span></label>
+    <textarea id="question"></textarea>
+  </div>
+
+  <details class="preview"><summary>Preview markdown</summary><pre class="md" id="out"></pre></details>
+
+  <p class="foot">No patient data. Anonymize cases. Confidential topics → 1:1, not here.</p>
+</main>
+
+<div class="actionbar"><div class="inner">
+  <span class="toast" id="toast"></span>
+  <span class="spacer"></span>
+  <button class="btn ghost sm" id="copy">Copy</button>
+  <button class="btn ghost sm" id="download">Download .md</button>
+  <button class="btn primary" id="submit" disabled>Submit update</button>
+</div></div>
+
+<script>
+(function(){
+  // --- config (single hosted page; identifies the member's repo from their token) ---
+  var GH = { owner:"sziegelmayer", hub:"lab-companion", prefix:"lab-", api:"https://api.github.com" };
+  var state = { token:null, repo:null, login:null };
+
+  var $ = function(id){ return document.getElementById(id); };
+  var today = new Date();
+  function iso(d){ return d.toISOString().slice(0,10); }
+
+  // defaults
+  $("date").value = iso(today);
+  var from = new Date(today); from.setDate(from.getDate()-14);
+  $("from").value = iso(from); $("to").value = iso(today);
+
+  // mood chips
+  document.querySelectorAll('.mood input').forEach(function(inp){
+    inp.addEventListener('change', function(){
+      document.querySelectorAll('.mood').forEach(function(m){ m.dataset.on="0"; });
+      inp.closest('.mood').dataset.on="1"; render();
+    });
+  });
+
+  function bullets(txt){
+    var lines=(txt||"").split('\n').map(function(s){return s.trim();}).filter(Boolean);
+    if(!lines.length) return "- ";
+    return lines.map(function(l){ return l[0]==='-'?l:'- '+l; }).join('\n');
+  }
+  function mood(){ var c=document.querySelector('.mood input:checked'); return c?c.value:'🟢'; }
+
+  function build(){
+    var member=$("member").value.trim()||"<name>", date=$("date").value||iso(today);
+    var per='from '+($("from").value||'?')+' to '+($("to").value||'?');
+    var people=$("people").value.trim()||"Nothing right now.";
+    return ["---","date: "+date,"member: "+member,'period: "'+per+'"',"mood: "+mood(),"---","",
+      "# Update "+member+" — "+date,"","## Mood",mood(),"",
+      "## 1. Last two weeks — what got done",bullets($("done").value),"",
+      "## 2. What worked / didn't",($("worked").value.trim()||""),"",
+      "## 3. Where I'm stuck / what I need",
+      "- **Content:** "+$("content").value.trim(),
+      "- **Resources:** "+$("resources").value.trim(),
+      "- **People:** "+people,"",
+      "## 4. Plan next two weeks",bullets($("plan").value),"",
+      "## 5. Longer-term on my radar",bullets($("radar").value),"",
+      "## 6. Question for the group (optional)",bullets($("question").value),""].join('\n');
+  }
+  function render(){ $("out").textContent=build(); }
+  document.querySelectorAll('input, textarea').forEach(function(el){ el.addEventListener('input', render); });
+
+  function flash(el,msg,kind){ el.textContent=msg; el.className='toast show '+(kind||''); setTimeout(function(){el.className='toast '+(kind||'');},2600); }
+  function b64(str){ return btoa(new Uint8Array(new TextEncoder().encode(str)).reduce(function(a,b){return a+String.fromCharCode(b);},'')); }
+
+  function ghHeaders(){ return {Authorization:"token "+state.token, Accept:"application/vnd.github+json"}; }
+
+  function setConnected(login, repo){
+    state.login=login; state.repo=repo;
+    $("conn").className="conn on"; $("conn").textContent="✓ "+login+" → "+repo.split('/')[1];
+    $("connPanel").classList.add("ok");
+    $("connPanel").querySelector("h2").textContent="Connected";
+    $("connPanel").querySelector(".sub2").textContent="Signed in as "+login+". Updates save to "+repo+".";
+    $("submit").disabled=false;
+    if(!$("member").value.trim()) { /* name filled by /user below */ }
+  }
+
+  function connect(token){
+    state.token=token;
+    flash($("connMsg"),"Checking…","");
+    fetch(GH.api+"/user",{headers:ghHeaders()}).then(function(r){
+      if(!r.ok) throw new Error(r.status===401?"Bad token":"GitHub error "+r.status);
+      return r.json();
+    }).then(function(u){
+      var login=u.login; if(u.name && !$("member").value.trim()) $("member").value=u.name;
+      return fetch(GH.api+"/user/repos?affiliation=owner,collaborator,organization_member&per_page=100",{headers:ghHeaders()})
+        .then(function(r){ if(!r.ok) throw new Error("Cannot list repos ("+r.status+")"); return r.json(); })
+        .then(function(repos){
+          var mine=repos.filter(function(r){
+            return r.owner.login.toLowerCase()===GH.owner.toLowerCase()
+              && r.name.indexOf(GH.prefix)===0 && r.name!==GH.hub
+              && r.permissions && r.permissions.push;
+          });
+          if(mine.length===0) throw new Error("No lab repo found — did you accept your repo invite?");
+          if(mine.length>1) { /* unlikely; pick first */ }
+          localStorage.setItem("labtoken", token);
+          setConnected(login, mine[0].full_name);
+          flash($("connMsg"),"Connected ✓","ok");
+          render();
+        });
+    }).catch(function(e){ state.token=null; $("submit").disabled=true; flash($("connMsg"), e.message, "err"); });
+  }
+
+  $("connect").addEventListener('click', function(){
+    var t=$("token").value.trim(); if(!t){ flash($("connMsg"),"Paste a token first","err"); return; }
+    connect(t);
+  });
+
+  function submit(){
+    if(!state.token||!state.repo){ flash($("toast"),"Connect first","err"); return; }
+    var date=$("date").value||iso(today);
+    var path="updates/"+date+".md";
+    var url=GH.api+"/repos/"+state.repo+"/contents/"+path;
+    var body={ message:"Update "+date, content:b64(build()) };
+    $("submit").disabled=true; flash($("toast"),"Submitting…","");
+    // check if the file already exists (need sha to overwrite)
+    fetch(url,{headers:ghHeaders()}).then(function(r){
+      if(r.status===200) return r.json().then(function(j){ body.sha=j.sha; });
+      return null;
+    }).then(function(){
+      return fetch(url,{method:"PUT",headers:ghHeaders(),body:JSON.stringify(body)});
+    }).then(function(r){
+      if(!r.ok) return r.json().then(function(j){ throw new Error(j.message||("HTTP "+r.status)); });
+      return r.json();
+    }).then(function(res){
+      var link=res.content && res.content.html_url;
+      $("toast").innerHTML = link ? ('Submitted ✓ <a href="'+link+'" target="_blank" rel="noopener">view</a>') : "Submitted ✓";
+      $("toast").className="toast show ok"; $("submit").disabled=false;
+    }).catch(function(e){ flash($("toast"), "Failed: "+e.message, "err"); $("submit").disabled=false; });
+  }
+  $("submit").addEventListener('click', submit);
+
+  // offline fallbacks
+  $("copy").addEventListener('click', function(){
+    var txt=build();
+    if(navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){flash($("toast"),"Copied ✓","ok");});
+    else { var ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); flash($("toast"),"Copied ✓","ok"); }
+  });
+  $("download").addEventListener('click', function(){
+    var blob=new Blob([build()],{type:"text/markdown"}); var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download=($("date").value||iso(today))+".md";
+    document.body.appendChild(a); a.click(); a.remove(); flash($("toast"),"Downloaded ✓","ok");
+  });
+
+  // auto-reconnect from saved token
+  var saved=localStorage.getItem("labtoken");
+  if(saved){ $("token").value=saved; connect(saved); }
+
+  render();
+})();
+</script>
+</body>
+</html>
