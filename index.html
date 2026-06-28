@@ -46,7 +46,7 @@
   .dot.r{background:#ff5f56} .dot.y{background:#ffbd2e} .dot.g{background:#27c93f}
   .term-title{font-family:var(--mono); font-size:12px; color:var(--faint); margin-left:8px}
   .term-body{margin:0; padding:18px; font-family:var(--mono); font-size:13px; line-height:1.7; color:#cbb9a6; white-space:pre-wrap}
-  .term-body .p{color:var(--accent)} .k{color:var(--accent2)} .s{color:#e8c07d} .b{color:#c792ea} .c{color:var(--faint)}
+  .term-body .p{color:var(--accent)} .k{color:#ff79c6} .s{color:#ffb86c} .b{color:#bd93f9} .punc{color:#8a7c6a} .c{color:var(--faint)}
   .cursor{display:inline-block; width:8px; background:var(--accent); color:transparent; animation:bl 1.1s steps(2) infinite}
   @keyframes bl{50%{opacity:0}}
   .banner{display:none; align-items:center; gap:10px; background:rgba(63,185,80,.10); border:1px solid rgba(63,185,80,.35);
@@ -72,7 +72,7 @@
     <div class="hero">
       <div>
         <span class="pill"><span class="d"></span> every 2 weeks · ~15 min</span>
-        <h1><span class="l1">Lab</span><br><span class="l2">updates</span><br><span class="l3">made easy.</span></h1>
+        <h1><span class="l1">Lab</span><br><span class="l2">updates</span><br><span class="l3">AIAH.</span></h1>
         <p class="sub">Post a short status every two weeks — what you got done, where you're stuck,
         what you need. It lives in <strong>your own private repo</strong>; only you and the PI can see it.</p>
         <div class="cta">
@@ -84,14 +84,15 @@
 
       <div class="term" aria-hidden="true">
         <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">aiah@lab:~</span></div>
-<pre class="term-body"><span class="p">$</span> cat onboarding.json
-{
-  <span class="k">"step_1"</span>: <span class="s">"accept repo invite"</span>,
-  <span class="k">"step_2"</span>: <span class="s">"create github token"</span>,
-  <span class="k">"step_3"</span>: <span class="s">"connect &amp; submit"</span>,
-  <span class="k">"time"</span>: <span class="s">"~15 min"</span>,
-  <span class="k">"private"</span>: <span class="b">true</span>
-}
+<pre class="term-body"><span class="p">$</span> cat tldr.json
+<span class="punc">{</span>
+  <span class="k">"cadence"</span>: <span class="s">"every 2 weeks"</span><span class="punc">,</span>
+  <span class="k">"effort"</span>: <span class="s">"~15 min"</span><span class="punc">,</span>
+  <span class="k">"private"</span>: <span class="b">true</span><span class="punc">,</span>
+  <span class="k">"seen_by"</span>: <span class="punc">[</span><span class="s">"you"</span><span class="punc">,</span> <span class="s">"the PI"</span><span class="punc">]</span><span class="punc">,</span>
+  <span class="k">"patient_data"</span>: <span class="b">false</span><span class="punc">,</span>
+  <span class="k">"excuses"</span>: <span class="b">null</span>
+<span class="punc">}</span>
 <span class="p">$</span> <span class="cursor">.</span></pre>
       </div>
     </div>
