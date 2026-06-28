@@ -6,84 +6,91 @@
 <title>Welcome — lab updates</title>
 <style>
   :root{
-    --bg:#f5f7f9; --card:#fff; --ink:#20252a; --muted:#5b6770;
-    --line:#dbe2e8; --accent:#3070b3; --accent-hover:#265e91; --accent-soft:#e8f1f8; --green:#16a34a; --radius:14px;
+    --bg:#1a1230; --bg2:#211837; --card:#241c40; --line:#352c55;
+    --ink:#ece9f5; --muted:#9a93b4; --faint:#6f6790;
+    --accent:#e6207a; --accent2:#ff5fa2; --accent-hover:#c71866; --accent-soft:rgba(230,32,122,.14);
+    --green:#34d399; --radius:16px;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
   }
   *{box-sizing:border-box}
   body{margin:0; background:var(--bg); color:var(--ink);
-    font:15px/1.6 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-  body::before{content:""; position:fixed; top:0; left:0; right:0; height:4px; background:var(--accent); z-index:10}
-  .wrap{max-width:600px; margin:0 auto; padding:56px 20px 80px}
-  .lead{margin:0 0 6px; font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent)}
-  h1{font-size:26px; margin:0 0 10px; letter-spacing:-.02em}
-  .intro{color:var(--muted); margin:0 0 8px}
-  .banner{display:none; align-items:center; gap:10px; background:#f0fdf4; border:1px solid #bbf7d0;
-    color:#166534; border-radius:var(--radius); padding:14px 16px; margin:22px 0 0; font-size:14px}
+    font:15px/1.6 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background-image:radial-gradient(900px 500px at 85% -10%, rgba(230,32,122,.10), transparent 60%);}
+  a{color:var(--accent2); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .nav{display:flex; align-items:center; max-width:860px; margin:0 auto; padding:22px 24px}
+  .brand{font-weight:700; letter-spacing:-.01em}
+  .brand .dot{color:var(--accent)}
+  .wrap{max-width:860px; margin:0 auto; padding:36px 24px 90px}
+  .hi{font-family:var(--mono); color:var(--muted); font-size:15px; margin:0 0 10px}
+  h1{font-size:clamp(40px,8vw,68px); line-height:1.04; font-weight:800; letter-spacing:-.025em; margin:0 0 16px}
+  h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .sub{color:var(--muted); font-size:16px; max-width:560px; margin:0 0 8px}
+  .sub strong{color:var(--ink); font-weight:600}
+  .banner{display:none; align-items:center; gap:10px; background:rgba(52,211,153,.10); border:1px solid rgba(52,211,153,.35);
+    color:#6ee7b7; border-radius:var(--radius); padding:14px 16px; margin:26px 0 0; font-size:14px}
   .banner.show{display:flex}
-  .steps{margin:30px 0 0; counter-reset:s; display:flex; flex-direction:column; gap:14px}
+  .banner a{color:#6ee7b7; text-decoration:underline}
+  .steps{margin:38px 0 0; counter-reset:s; display:grid; gap:16px}
   .step{position:relative; background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
-    padding:18px 20px 18px 60px}
-  .step::before{counter-increment:s; content:counter(s); position:absolute; left:18px; top:18px;
-    width:28px; height:28px; border-radius:50%; background:var(--accent-soft); color:var(--accent);
-    font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center}
-  .step h3{margin:0 0 4px; font-size:16px}
-  .step p{margin:0 0 12px; color:var(--muted); font-size:13.5px}
+    padding:22px 24px 22px 70px; transition:border-color .15s, transform .08s}
+  .step:hover{border-color:#4a3d72; transform:translateY(-1px)}
+  .step::before{counter-increment:s; content:counter(s); position:absolute; left:22px; top:22px;
+    width:32px; height:32px; border-radius:50%; background:var(--accent-soft); color:var(--accent2);
+    font-weight:700; font-size:15px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(230,32,122,.35)}
+  .step .emoji{font-size:18px}
+  .step h3{margin:0 0 5px; font-size:17px; font-weight:650}
+  .step p{margin:0 0 14px; color:var(--muted); font-size:14px}
   .step p:last-child{margin-bottom:0}
-  .btn{display:inline-block; border:1px solid var(--line); background:var(--card); color:var(--ink);
-    border-radius:10px; padding:9px 15px; font-weight:600; font-size:14px; text-decoration:none; cursor:pointer;
-    transition:border-color .15s, background .15s}
-  .btn:hover{border-color:#cbd5e1}
-  .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
-  .btn.primary:hover{background:var(--accent-hover); border-color:var(--accent-hover)}
-  .btn.lg{padding:13px 22px; font-size:15px}
-  code{background:#f1f5f9; border:1px solid var(--line); border-radius:6px; padding:1px 6px; font-size:12.5px}
-  .cta{margin:30px 0 0; text-align:center}
-  .foot{color:var(--muted); font-size:12px; margin-top:34px; text-align:center}
-  a{color:var(--accent)}
+  .btn{display:inline-block; border:1px solid var(--line); background:transparent; color:var(--ink);
+    border-radius:11px; padding:10px 16px; font-weight:600; font-size:14px; cursor:pointer; transition:border-color .15s, background .15s, transform .06s}
+  .btn:hover{border-color:#5a4b85; text-decoration:none}
+  .btn:active{transform:scale(.98)}
+  .btn.primary{border:none; color:#fff; background:linear-gradient(90deg,var(--accent),var(--accent2)); box-shadow:0 6px 20px -6px rgba(230,32,122,.6)}
+  .btn.primary:hover{filter:brightness(1.06)}
+  .btn.lg{padding:14px 26px; font-size:15px}
+  code{font-family:var(--mono); background:#2c2350; border:1px solid var(--line); border-radius:6px; padding:1px 7px; font-size:12.5px; color:#cbb6e8}
+  .cta{margin:36px 0 0; text-align:center}
+  .foot{color:var(--faint); font-size:12.5px; margin-top:40px; text-align:center}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <p class="lead">Lab updates</p>
-  <h1>Welcome 👋</h1>
-  <p class="intro">Every two weeks you'll post a short status update (~15 min) so the PI knows what
-  you got done, where you're stuck, and what you need. It lives in <strong>your own private repo</strong> —
-  only you and the PI can see it.</p>
+  <div class="nav"><span class="brand">lab updates<span class="dot">.</span></span></div>
 
-  <div class="banner" id="back">✓ You're already set up on this device. <a href="form.html">Open the update form →</a></div>
+  <div class="wrap">
+    <p class="hi">// hey 👋</p>
+    <h1>Welcome to<br><span class="grad">lab updates</span></h1>
+    <p class="sub">Every two weeks you post a short status (~15 min) — what you got done, where you're
+    stuck, what you need. It lives in <strong>your own private repo</strong>; only you and the PI can see it.</p>
 
-  <div class="steps">
-    <div class="step">
-      <h3>Accept your repo invite</h3>
-      <p>You got a GitHub invite to your <code>lab-…</code> repo. Accept it (check your email,
-      or your <a href="https://github.com/notifications" target="_blank" rel="noopener">GitHub notifications</a>).
-      One-time.</p>
-      <a class="btn" href="https://github.com/notifications" target="_blank" rel="noopener">Open notifications</a>
+    <div class="banner" id="back">✓ You're already set up on this device. <a href="form.html">Open the update form →</a></div>
+
+    <div class="steps">
+      <div class="step">
+        <h3><span class="emoji">📨</span> Accept your repo invite</h3>
+        <p>You got a GitHub invite to your <code>lab-…</code> repo. Accept it (email, or your
+        <a href="https://github.com/notifications" target="_blank" rel="noopener">GitHub notifications</a>). One-time.</p>
+        <a class="btn" href="https://github.com/notifications" target="_blank" rel="noopener">Open notifications</a>
+      </div>
+      <div class="step">
+        <h3><span class="emoji">🔑</span> Create a GitHub token</h3>
+        <p>Lets the form save your update for you. Scope <code>repo</code> is pre-selected — scroll down,
+        <em>Generate token</em>, copy it. One-time.</p>
+        <a class="btn" href="https://github.com/settings/tokens/new?scopes=repo&description=lab-update" target="_blank" rel="noopener">Create token →</a>
+      </div>
+      <div class="step">
+        <h3><span class="emoji">🚀</span> Open the form &amp; connect</h3>
+        <p>Paste your token, click <strong>Connect</strong> (should say <em>“✓ you → your repo”</em>), write
+        your update, hit <strong>Submit</strong>. After this you just type &amp; submit.</p>
+        <a class="btn primary" href="form.html">Go to the form →</a>
+      </div>
     </div>
 
-    <div class="step">
-      <h3>Create a GitHub token</h3>
-      <p>This lets the form save your update for you. Scope <code>repo</code> is pre-selected —
-      just scroll down and <em>Generate token</em>, then copy it. One-time.</p>
-      <a class="btn" href="https://github.com/settings/tokens/new?scopes=repo&description=lab-update" target="_blank" rel="noopener">Create token →</a>
-    </div>
-
-    <div class="step">
-      <h3>Open the form &amp; connect</h3>
-      <p>Paste your token, click <strong>Connect</strong> (it should say
-      <em>“✓ you → your repo”</em>), then write your update and <strong>Submit</strong>.
-      After this, you just type &amp; submit each time.</p>
-      <a class="btn primary" href="form.html">Go to the form →</a>
-    </div>
+    <div class="cta"><a class="btn primary lg" href="form.html">Open the update form →</a></div>
+    <p class="foot">Questions? Ask the PI. · No patient data — anonymize cases. Confidential topics → 1:1.</p>
   </div>
 
-  <div class="cta"><a class="btn primary lg" href="form.html">Open the update form →</a></div>
-
-  <p class="foot">Questions? Ask the PI. · No patient data — anonymize cases. Confidential topics → 1:1.</p>
-</div>
-
 <script>
-  // returning members (token already saved): surface a shortcut to the form
   try { if (localStorage.getItem("labtoken")) document.getElementById("back").classList.add("show"); } catch(e){}
 </script>
 </body>
