@@ -6,30 +6,30 @@
 <title>Bi-weekly update</title>
 <style>
   :root{
-    --bg:#1a1230; --card:#241c40; --line:#352c55; --ink:#ece9f5; --muted:#9a93b4; --faint:#6f6790;
-    --accent:#e6207a; --accent2:#ff5fa2; --accent-hover:#c71866; --accent-soft:rgba(230,32,122,.14);
-    --green:#34d399; --amber:#fbbf24; --red:#f87171; --radius:14px;
+    --bg:#0e0b09; --card:#17120e; --line:#2a2018; --ink:#f4efe9; --muted:#a99e92; --faint:#6f6457;
+    --accent:#f5853a; --accent2:#ffa766; --accent-hover:#ff9d5c; --accent-soft:rgba(245,133,58,.16);
+    --green:#3fb950; --amber:#fbbf24; --red:#f87171; --radius:14px;
     --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
   }
   *{box-sizing:border-box}
   body{margin:0; background:var(--bg); color:var(--ink);
     font:15px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    background-image:radial-gradient(900px 500px at 88% -12%, rgba(230,32,122,.10), transparent 60%);}
-  .topbar{position:sticky; top:0; z-index:5; background:rgba(26,18,48,.78);
+    background-image:radial-gradient(1000px 560px at 88% -12%, rgba(245,133,58,.10), transparent 60%);}
+  .topbar{position:sticky; top:0; z-index:5; background:rgba(14,11,9,.80);
     backdrop-filter:saturate(160%) blur(10px); border-bottom:1px solid var(--line);}
   .topbar .inner{max-width:680px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:10px}
   .topbar h1{font-size:16px; margin:0; font-weight:700; letter-spacing:-.01em}
   .topbar .hint{color:var(--faint); font-size:13px; font-family:var(--mono)}
   .spacer{flex:1}
   .conn{font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; white-space:nowrap}
-  .conn.off{color:var(--muted); background:#2c2350}
-  .conn.on{color:var(--green); background:rgba(52,211,153,.14)}
+  .conn.off{color:var(--muted); background:#221913; font-family:var(--mono)}
+  .conn.on{color:var(--green); background:rgba(63,185,80,.16); font-family:var(--mono)}
   main{max-width:680px; margin:0 auto; padding:24px 20px 130px}
   .field{margin:0 0 22px}
   label.lbl{display:block; font-size:13px; font-weight:600; margin:0 0 6px}
   .help{color:var(--muted); font-size:12.5px; margin:0 0 8px; font-weight:400}
   input[type=text], input[type=date], input[type=password], textarea{
-    width:100%; background:#1f1838; border:1px solid var(--line); border-radius:10px;
+    width:100%; background:#1b140f; border:1px solid var(--line); border-radius:10px;
     padding:10px 12px; font:inherit; color:var(--ink); transition:border-color .15s, box-shadow .15s;}
   input::placeholder, textarea::placeholder{color:var(--faint)}
   input[type=date]{color-scheme:dark}
@@ -40,33 +40,33 @@
   .panel{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; margin:0 0 26px}
   .panel h2{font-size:14px; margin:0 0 4px}
   .panel .sub2{color:var(--muted); font-size:12.5px; margin:0 0 12px}
-  .panel.ok{border-color:rgba(52,211,153,.4); background:rgba(52,211,153,.08)}
+  .panel.ok{border-color:rgba(63,185,80,.4); background:rgba(63,185,80,.08)}
   .inline{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
   .moods{display:flex; gap:10px; flex-wrap:wrap}
-  .mood{flex:1; min-width:140px; cursor:pointer; border:1px solid var(--line); background:#1f1838;
+  .mood{flex:1; min-width:140px; cursor:pointer; border:1px solid var(--line); background:#1b140f;
     border-radius:10px; padding:12px 14px; display:flex; align-items:center; gap:10px; position:relative;
     transition:border-color .15s, background .15s, transform .05s;}
-  .mood:hover{border-color:#4a3d72}
+  .mood:hover{border-color:#43331f}
   .mood:active{transform:scale(.99)}
   .mood input{position:absolute; opacity:0; pointer-events:none}
   .mood .emoji{font-size:20px; line-height:1}
   .mood .txt small{display:block; color:var(--muted); font-size:11.5px}
-  .mood[data-on="1"][data-k="g"]{border-color:var(--green); background:rgba(52,211,153,.12)}
+  .mood[data-on="1"][data-k="g"]{border-color:var(--green); background:rgba(63,185,80,.12)}
   .mood[data-on="1"][data-k="y"]{border-color:var(--amber); background:rgba(251,191,36,.12)}
   .mood[data-on="1"][data-k="r"]{border-color:var(--red); background:rgba(248,113,113,.12)}
   fieldset{border:none; padding:0; margin:0}
   .sub{margin:0 0 10px}
   .sub .lbl{font-weight:500; font-size:12.5px; color:var(--muted)}
-  .actionbar{position:fixed; left:0; right:0; bottom:0; background:rgba(26,18,48,.86);
+  .actionbar{position:fixed; left:0; right:0; bottom:0; background:rgba(14,11,9,.86);
     backdrop-filter:blur(10px); border-top:1px solid var(--line);}
   .actionbar .inner{max-width:680px; margin:0 auto; padding:12px 20px; display:flex; gap:10px; align-items:center}
   .btn{border:1px solid var(--line); background:transparent; color:var(--ink); border-radius:10px;
     padding:10px 16px; font:inherit; font-weight:600; cursor:pointer; transition:background .15s, border-color .15s, transform .05s;}
-  .btn:hover{border-color:#5a4b85}
+  .btn:hover{border-color:#4a3a28}
   .btn:active{transform:scale(.98)}
-  .btn.primary{border:none; color:#fff; background:linear-gradient(90deg,var(--accent),var(--accent2)); box-shadow:0 6px 20px -8px rgba(230,32,122,.6)}
-  .btn.primary:hover{filter:brightness(1.07)}
-  .btn.primary:disabled{background:#4a3d62; box-shadow:none; color:#b6abce; cursor:not-allowed; filter:none}
+  .btn.primary{border:none; color:#1a1206; background:var(--accent); font-weight:700}
+  .btn.primary:hover{filter:brightness(1.06)}
+  .btn.primary:disabled{background:#3a2c1c; color:#8a7c6a; cursor:not-allowed; filter:none}
   .btn.ghost{background:transparent}
   .btn.sm{padding:8px 12px; font-size:13px}
   .toast{font-size:13px; font-weight:600; opacity:0; transition:opacity .2s}
@@ -78,7 +78,7 @@
   details.preview summary::after{content:"▸"; float:right; color:var(--muted)}
   details.preview[open] summary::after{content:"▾"}
   pre.md{margin:0; padding:14px; border-top:1px solid var(--line); white-space:pre-wrap; word-break:break-word;
-    font:12.5px/1.5 var(--mono); color:#c7c0e0; max-height:340px; overflow:auto}
+    font:12.5px/1.5 var(--mono); color:#cbb9a6; max-height:340px; overflow:auto}
   a{color:var(--accent2)}
   .foot{color:var(--faint); font-size:12px; margin-top:28px; text-align:center}
   .hidden{display:none !important}
