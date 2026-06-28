@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Set up your profile</title>
+<style>
+  :root{
+    --bg:#0e0b09; --card:#17120e; --line:#2a2018; --ink:#f4efe9; --muted:#a99e92; --faint:#6f6457;
+    --accent:#f5853a; --accent2:#ffa766; --accent-hover:#ff9d5c; --accent-soft:rgba(245,133,58,.16);
+    --green:#3fb950; --red:#f87171; --radius:14px;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font:15px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background-image:radial-gradient(1000px 560px at 88% -12%, rgba(245,133,58,.10), transparent 60%);}
+  .topbar{position:sticky; top:0; z-index:5; background:rgba(14,11,9,.80);
+    backdrop-filter:saturate(160%) blur(10px); border-bottom:1px solid var(--line);}
+  .topbar .inner{max-width:620px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:10px}
+  .topbar h1{font-size:16px; margin:0; font-weight:700; letter-spacing:-.01em}
+  .topbar .hint{color:var(--faint); font-size:13px; font-family:var(--mono)}
+  .spacer{flex:1}
+  .conn{font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; white-space:nowrap; font-family:var(--mono)}
+  .conn.off{color:var(--muted); background:#221913}
+  .conn.on{color:var(--green); background:rgba(63,185,80,.16)}
+  main{max-width:620px; margin:0 auto; padding:24px 20px 120px}
+  .field{margin:0 0 22px}
+  label.lbl{display:block; font-size:13px; font-weight:600; margin:0 0 6px}
+  .req{color:var(--accent)}
+  .help{color:var(--muted); font-size:12.5px; margin:0 0 8px; font-weight:400}
+  input[type=text], select, textarea{width:100%; background:#1b140f; border:1px solid var(--line); border-radius:10px;
+    padding:10px 12px; font:inherit; color:var(--ink); transition:border-color .15s, box-shadow .15s;}
+  input::placeholder, textarea::placeholder{color:var(--faint)}
+  select{appearance:none; background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+    background-position:calc(100% - 18px) 18px,calc(100% - 13px) 18px; background-size:5px 5px,5px 5px; background-repeat:no-repeat}
+  textarea{resize:vertical; min-height:72px}
+  input:focus, select:focus, textarea:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft)}
+  .row{display:flex; gap:12px; flex-wrap:wrap}
+  .row .field{flex:1; min-width:160px}
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; margin:0 0 26px}
+  .panel h2{font-size:14px; margin:0 0 4px}
+  .panel .sub2{color:var(--muted); font-size:12.5px; margin:0 0 12px}
+  .panel.ok{border-color:rgba(63,185,80,.4); background:rgba(63,185,80,.08)}
+  .inline{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .actionbar{position:fixed; left:0; right:0; bottom:0; background:rgba(14,11,9,.86); backdrop-filter:blur(10px); border-top:1px solid var(--line);}
+  .actionbar .inner{max-width:620px; margin:0 auto; padding:12px 20px; display:flex; gap:10px; align-items:center}
+  .btn{border:1px solid var(--line); background:transparent; color:var(--ink); border-radius:10px;
+    padding:10px 16px; font:inherit; font-weight:600; cursor:pointer; transition:border-color .15s, transform .05s, filter .15s;}
+  .btn:hover{border-color:#4a3a28} .btn:active{transform:scale(.98)}
+  .btn.primary{border:none; color:#1a1206; background:var(--accent); font-weight:700}
+  .btn.primary:hover{filter:brightness(1.06)}
+  .btn.primary:disabled{background:#3a2c1c; color:#8a7c6a; cursor:not-allowed; filter:none}
+  .btn.ghost{background:transparent} .btn.sm{padding:8px 12px; font-size:13px}
+  .toast{font-size:13px; font-weight:600; opacity:0; transition:opacity .2s} .toast.show{opacity:1}
+  .toast.ok{color:var(--green)} .toast.err{color:var(--red)}
+  a{color:var(--accent2)} code{font-family:var(--mono); background:#221913; border:1px solid var(--line); border-radius:6px; padding:1px 6px; font-size:12px; color:var(--accent2)}
+  .foot{color:var(--faint); font-size:12px; margin-top:24px; text-align:center}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="inner">
+  <h1>Your profile</h1><span class="hint">once at the start</span>
+  <span class="spacer"></span>
+  <span class="conn off" id="conn">Not connected</span>
+</div></div>
+
+<main>
+  <section class="panel" id="connPanel">
+    <h2>Connect once</h2>
+    <p class="sub2">Paste a GitHub token so this page can save your details to your private repo. Stored only in this browser. First time here? <a href="index.html">See the onboarding guide →</a></p>
+    <div class="field" style="margin-bottom:12px">
+      <input type="password" id="token" placeholder="ghp_… (paste your token)" autocomplete="off">
+    </div>
+    <div class="inline">
+      <button class="btn primary sm" id="connect">Connect</button>
+      <a class="btn ghost sm" href="https://github.com/settings/tokens/new?scopes=repo&description=lab-update" target="_blank" rel="noopener">Create a token →</a>
+      <span class="toast" id="connMsg"></span>
+    </div>
+  </section>
+
+  <div class="row">
+    <div class="field">
+      <label class="lbl" for="name">Name <span class="req">*</span></label>
+      <input type="text" id="name" placeholder="e.g. Anna Schmidt">
+    </div>
+    <div class="field" style="max-width:240px">
+      <label class="lbl" for="role">Position <span class="req">*</span></label>
+      <select id="role">
+        <option value="">Select…</option>
+        <option>MD student</option>
+        <option>PhD student</option>
+        <option>Postdoc</option>
+        <option>Resident</option>
+        <option>Senior Resident</option>
+        <option>Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="supervisor">Supervisor <span class="help" style="display:inline">(optional)</span></label>
+    <input type="text" id="supervisor" placeholder="who supervises you scientifically">
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="project">Current project(s) <span class="help" style="display:inline">(optional)</span></label>
+    <input type="text" id="project" placeholder="e.g. Pancreas body composition">
+  </div>
+
+  <div class="field">
+    <label class="lbl" for="focus">In one line, what you work on <span class="help" style="display:inline">(optional)</span></label>
+    <textarea id="focus" placeholder="e.g. Deep learning for abdominal CT"></textarea>
+  </div>
+
+  <p class="foot">Saved as <code>profile.md</code> in your repo. You can update it any time.</p>
+</main>
+
+<div class="actionbar"><div class="inner">
+  <span class="toast" id="toast"></span>
+  <span class="spacer"></span>
+  <a class="btn ghost sm" id="next" href="form.html" style="display:none">Skip to update form →</a>
+  <button class="btn primary" id="save" disabled>Save profile</button>
+</div></div>
+
+<script>
+(function(){
+  var GH = { owner:"sziegelmayer", prefix:"lab-", skip:["lab-companion","lab-update-form"], api:"https://api.github.com" };
+  var state = { token:null, repo:null, login:null };
+  var $ = function(id){ return document.getElementById(id); };
+
+  function ym(){ var d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"); }
+  function flash(el,msg,kind){ el.innerHTML=msg; el.className='toast show '+(kind||''); }
+  function b64(str){ return btoa(new Uint8Array(new TextEncoder().encode(str)).reduce(function(a,b){return a+String.fromCharCode(b);},'')); }
+  function ghHeaders(){ return {Authorization:"token "+state.token, Accept:"application/vnd.github+json"}; }
+
+  function canSave(){ return state.token && state.repo && $("name").value.trim() && $("role").value; }
+  function refresh(){ $("save").disabled = !canSave(); }
+  document.querySelectorAll('input, select, textarea').forEach(function(el){ el.addEventListener('input', refresh); });
+
+  function build(){
+    var name=$("name").value.trim(), role=$("role").value, sup=$("supervisor").value.trim(),
+        proj=$("project").value.trim(), focus=$("focus").value.trim();
+    return ["---",'name: "'+name+'"','role: "'+role+'"',"since: "+ym(),"status: active","---","",
+      "# Profile: "+name,"","## Role and context",
+      "- **Role:** "+role,
+      "- **Supervision:** "+(sup||"—"),"",
+      "## Current projects",
+      "- "+(proj||"—"),"",
+      "## Focus",
+      (focus||"—"),""].join("\n");
+  }
+
+  function setConnected(login, repo){
+    state.login=login; state.repo=repo;
+    $("conn").className="conn on"; $("conn").textContent="✓ "+login+" → "+repo.split('/')[1];
+    $("connPanel").classList.add("ok");
+    $("connPanel").querySelector("h2").textContent="Connected";
+    $("connPanel").querySelector(".sub2").textContent="Signed in as "+login+". Saves to "+repo+".";
+    $("next").style.display="";
+    refresh();
+  }
+  function connect(token){
+    state.token=token; flash($("connMsg"),"Checking…","");
+    fetch(GH.api+"/user",{headers:ghHeaders()}).then(function(r){
+      if(!r.ok) throw new Error(r.status===401?"Bad token":"GitHub error "+r.status); return r.json();
+    }).then(function(u){
+      var login=u.login; if(u.name && !$("name").value.trim()) $("name").value=u.name;
+      return fetch(GH.api+"/user/repos?affiliation=owner,collaborator,organization_member&per_page=100",{headers:ghHeaders()})
+        .then(function(r){ if(!r.ok) throw new Error("Cannot list repos ("+r.status+")"); return r.json(); })
+        .then(function(repos){
+          var mine=repos.filter(function(r){ return r.owner.login.toLowerCase()===GH.owner.toLowerCase()
+            && r.name.indexOf(GH.prefix)===0 && GH.skip.indexOf(r.name)===-1 && r.permissions && r.permissions.push; });
+          if(!mine.length) throw new Error("No lab repo found — accept your repo invite first?");
+          localStorage.setItem("labtoken", token);
+          setConnected(login, mine[0].full_name);
+          flash($("connMsg"),"Connected ✓","ok");
+          // prefill from existing profile.md if present
+          prefill();
+        });
+    }).catch(function(e){ state.token=null; refresh(); flash($("connMsg"), e.message, "err"); });
+  }
+
+  function prefill(){
+    fetch(GH.api+"/repos/"+state.repo+"/contents/profile.md",{headers:ghHeaders()}).then(function(r){
+      return r.status===200 ? r.json() : null;
+    }).then(function(j){
+      if(!j) return;
+      var txt=decodeURIComponent(escape(atob(j.content.replace(/\n/g,""))));
+      var m;
+      if(!$("name").value && (m=txt.match(/^name:\s*"?(.*?)"?\s*$/m)) && m[1] && m[1].indexOf("<")!==0) $("name").value=m[1];
+      if((m=txt.match(/^role:\s*"?(.*?)"?\s*$/m)) && m[1]){ var opt=[].find.call($("role").options,function(o){return o.value===m[1];}); if(opt) $("role").value=m[1]; }
+      refresh();
+    }).catch(function(){});
+  }
+
+  $("connect").addEventListener('click', function(){ var t=$("token").value.trim(); if(!t){flash($("connMsg"),"Paste a token first","err");return;} connect(t); });
+
+  function save(){
+    if(!canSave()){ flash($("toast"),"Fill name + position","err"); return; }
+    var url=GH.api+"/repos/"+state.repo+"/contents/profile.md";
+    var body={ message:"Set up profile", content:b64(build()) };
+    $("save").disabled=true; flash($("toast"),"Saving…","");
+    fetch(url,{headers:ghHeaders()}).then(function(r){ return r.status===200 ? r.json().then(function(j){body.sha=j.sha;}) : null; })
+      .then(function(){ return fetch(url,{method:"PUT",headers:ghHeaders(),body:JSON.stringify(body)}); })
+      .then(function(r){ if(!r.ok) return r.json().then(function(j){throw new Error(j.message||("HTTP "+r.status));}); return r.json(); })
+      .then(function(){ $("toast").innerHTML='Saved ✓ — <a href="form.html">write your first update →</a>'; $("toast").className="toast show ok"; refresh(); })
+      .catch(function(e){ flash($("toast"),"Failed: "+e.message,"err"); refresh(); });
+  }
+  $("save").addEventListener('click', save);
+
+  var saved=localStorage.getItem("labtoken"); if(saved){ $("token").value=saved; connect(saved); }
+  refresh();
+})();
+</script>
+</body>
+</html>
