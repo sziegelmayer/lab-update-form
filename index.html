@@ -193,7 +193,7 @@
 <script>
 (function(){
   // --- config (single hosted page; identifies the member's repo from their token) ---
-  var GH = { owner:"sziegelmayer", hub:"lab-companion", prefix:"lab-", api:"https://api.github.com" };
+  var GH = { owner:"sziegelmayer", prefix:"lab-", skip:["lab-companion","lab-update-form"], api:"https://api.github.com" };
   var state = { token:null, repo:null, login:null };
 
   var $ = function(id){ return document.getElementById(id); };
@@ -267,7 +267,7 @@
         .then(function(repos){
           var mine=repos.filter(function(r){
             return r.owner.login.toLowerCase()===GH.owner.toLowerCase()
-              && r.name.indexOf(GH.prefix)===0 && r.name!==GH.hub
+              && r.name.indexOf(GH.prefix)===0 && GH.skip.indexOf(r.name)===-1
               && r.permissions && r.permissions.push;
           });
           if(mine.length===0) throw new Error("No lab repo found — did you accept your repo invite?");
