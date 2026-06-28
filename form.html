@@ -6,13 +6,14 @@
 <title>Bi-weekly update</title>
 <style>
   :root{
-    --bg:#fafafa; --card:#fff; --ink:#111827; --muted:#6b7280;
-    --line:#e5e7eb; --accent:#4f46e5; --accent-soft:#eef2ff;
+    --bg:#f5f7f9; --card:#fff; --ink:#20252a; --muted:#5b6770;
+    --line:#dbe2e8; --accent:#3070b3; --accent-hover:#265e91; --accent-soft:#e8f1f8;
     --green:#16a34a; --amber:#d97706; --red:#dc2626; --radius:12px;
   }
   *{box-sizing:border-box}
   body{margin:0; background:var(--bg); color:var(--ink);
     font:15px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+  body::before{content:""; position:fixed; top:0; left:0; right:0; height:4px; background:var(--accent); z-index:10}
   .topbar{position:sticky; top:0; z-index:5; background:rgba(250,250,250,.85);
     backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line);}
   .topbar .inner{max-width:680px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:10px}
@@ -61,8 +62,8 @@
   .btn:hover{border-color:#cbd5e1}
   .btn:active{transform:scale(.98)}
   .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
-  .btn.primary:hover{background:#4338ca}
-  .btn.primary:disabled{background:#c7d2fe; border-color:#c7d2fe; cursor:not-allowed}
+  .btn.primary:hover{background:var(--accent-hover); border-color:var(--accent-hover)}
+  .btn.primary:disabled{background:#a9c7de; border-color:#a9c7de; cursor:not-allowed}
   .btn.ghost{background:transparent}
   .btn.sm{padding:8px 12px; font-size:13px}
   .toast{font-size:13px; font-weight:600; opacity:0; transition:opacity .2s}

@@ -6,12 +6,13 @@
 <title>Welcome — lab updates</title>
 <style>
   :root{
-    --bg:#fafafa; --card:#fff; --ink:#111827; --muted:#6b7280;
-    --line:#e5e7eb; --accent:#4f46e5; --accent-soft:#eef2ff; --green:#16a34a; --radius:14px;
+    --bg:#f5f7f9; --card:#fff; --ink:#20252a; --muted:#5b6770;
+    --line:#dbe2e8; --accent:#3070b3; --accent-hover:#265e91; --accent-soft:#e8f1f8; --green:#16a34a; --radius:14px;
   }
   *{box-sizing:border-box}
   body{margin:0; background:var(--bg); color:var(--ink);
     font:15px/1.6 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+  body::before{content:""; position:fixed; top:0; left:0; right:0; height:4px; background:var(--accent); z-index:10}
   .wrap{max-width:600px; margin:0 auto; padding:56px 20px 80px}
   .lead{margin:0 0 6px; font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--accent)}
   h1{font-size:26px; margin:0 0 10px; letter-spacing:-.02em}
@@ -33,7 +34,7 @@
     transition:border-color .15s, background .15s}
   .btn:hover{border-color:#cbd5e1}
   .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
-  .btn.primary:hover{background:#4338ca}
+  .btn.primary:hover{background:var(--accent-hover); border-color:var(--accent-hover)}
   .btn.lg{padding:13px 22px; font-size:15px}
   code{background:#f1f5f9; border:1px solid var(--line); border-radius:6px; padding:1px 6px; font-size:12.5px}
   .cta{margin:30px 0 0; text-align:center}
